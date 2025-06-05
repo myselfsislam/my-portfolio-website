@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sohail Islam - Technical Lead (Data Analytics)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Apply Medium font to all text elements */
+        *, *::before, *::after {
+            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+        }
+
+        body {
+            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+            background: #0a0a0f;
+            color: #e0e6ed;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Background Animations */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        .data-point {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: floatUp 8s linear infinite;
+        }
+
+        .data-point:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .data-point:nth-child(2) { left: 30%; animation-delay: 2s; }
+        .data-point:nth-child(3) { left: 50%; animation-delay: 4s; }
+        .data-point:nth-child(4) { left: 70%; animation-delay: 6s; }
+        .data-point:nth-child(5) { left: 90%; animation-delay: 1s; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px); opacity: 0; }
+        }
+
+        .chart-line {
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            width: 100px;
+            height: 60px;
+            opacity: 0.1;
+        }
+
+        .chart-line svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-path {
+            fill: none;
+            stroke: #00d4ff;
+            stroke-width: 2;
+            stroke-dasharray: 100;
+            animation: drawLine 4s ease-in-out infinite;
+        }
+
+        @keyframes drawLine {
+            0%, 100% { stroke-dashoffset: 100; }
+            50% { stroke-dashoffset: 0; }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Header */
+        header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 40px;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-content h1 .highlight {
+            color: #00d4ff;
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image::before {
+            content: '';
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0.1;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .avatar {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #00d4ff;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            z-index: 1000;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            background: rgba(10, 10, 15, 0.9);
+            padding: 15px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .nav-menu a {
+            color: #e0e6ed;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #00d4ff;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 60px;
+            color: #ffffff;
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .download-cv {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .download-cv:hover {
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #00d4ff;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Expertise Section */
+        .expertise {
+            background: #151520;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .expertise-item {
+            background: rgba(0, 212, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .expertise-item:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+        }
+
+        .expertise-item h3 {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .expertise-item ul {
+            list-style: none;
+        }
+
+        .expertise-item li {
+            padding: 8px 0;
+            color: #b0b8c0;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .expertise-item li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #00d4ff;
+        }
+
+        /* Experience Section */
+        .experience {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+        }
+
+        .experience-item {
+            background: rgba(0, 212, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .experience-item:hover {
+            transform: translateX(10px);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .job-title {
+            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .company {
+            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .duration {
+            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+            background: rgba(0, 212, 255, 0.2);
+            color: #00d4ff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .job-description {
+            color: #b0b8c0;
+            line-height: 1.7;
+            margin-top: 20px;
+        }
+
+        .achievements {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .achievements li {
+            padding: 8px 0;
+            color: #b0b8c0;
+            position: relative;
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+
+        .achievements li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #00d4ff;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #151520;
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-text {
+            font-size: 1.3rem;
+            line-height: 1.7;
+            margin-bottom: 50px;
+            color: #b0b8c0;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .contact-item {
+            background: rgba(0, 212, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+
+        .contact-label {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .contact-value {
+            color: #b0b8c0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                top: 20px;
+                right: 20px;
+            }
+
+            .experience-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 212, 255, 0.2);
+            z-index: 1001;
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="data-point"></div>
+        <div class="data-point"></div>
+        <div class="data-point"></div>
+        <div class="data-point"></div>
+        <div class="data-point"></div>
+        
+        <div class="chart-line">
+            <svg viewBox="0 0 100 60">
+                <path class="chart-path" d="M10,50 Q30,10 50,30 T90,20"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scrollProgress"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <ul class="nav-menu">
+            <li><a href="#about">About</a></li>
+            <li><a href="#expertise">Expertise</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header>
+        <div class="container">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>
+                        I am <span class="highlight">Sohail Islam</span>,<br>
+                        a Technical Lead<br>
+                        & Business Intelligence<br>
+                        Professional.
+                    </h1>
+                </div>
+                <div class="hero-image">
+                    <div class="avatar">SI</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About</h2>
+            <div class="about-content">
+                <div>
+                    <p class="about-text">
+                        Business Analytics Lead with 9+ years of experience delivering complex data initiatives across industries including enterprise software, energy analytics, manufacturing, media tech, and IT services. Proven track record of aligning analytics strategies with business objectives, leading high-performing data teams, and fostering a culture of data-driven decision-making to drive measurable impact.
+                    </p>
+                    <p class="about-text">
+                        Currently serving as Technical Lead at Qualitest (Google), I've successfully reduced operational costs by 95% through intelligent automation while enhancing data quality by 90%. My passion for innovation drives me to continuously explore emerging technologies and methodologies.
+                    </p>
+                    <a href="mailto:iamsohailislam1312@gmail.com" class="download-cv">Get In Touch</a>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">9+</span>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">95%</span>
+                        <div class="stat-label">Cost Reduction</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">90%</span>
+                        <div class="stat-label">Data Quality</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">80%</span>
+                        <div class="stat-label">Time Saved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expertise Section -->
+    <section id="expertise" class="expertise">
+        <div class="container">
+            <h2 class="section-title">Expertise</h2>
+            <div class="expertise-grid">
+                <div class="expertise-item">
+                    <h3>BI & Visualization</h3>
+                    <ul>
+                        <li>Google Data Studio</li>
+                        <li>Apache Superset</li>
+                        <li>Power BI</li>
+                        <li>SAP Business Objects</li>
+                        <li>Mixpanel Analytics</li>
+                    </ul>
+                </div>
+                <div class="expertise-item">
+                    <h3>Programming & Scripting</h3>
+                    <ul>
+                        <li>Python (Pandas, NumPy)</li>
+                        <li>Google Apps Script</li>
+                        <li>HTML/CSS/JavaScript</li>
+                        <li>SQL (Advanced)</li>
+                        <li>Flask & Django</li>
+                    </ul>
+                </div>
+                <div class="expertise-item">
+                    <h3>Cloud & Infrastructure</h3>
+                    <ul>
+                        <li>AWS (S3, Redshift, RDS)</li>
+                        <li>Google Cloud Platform</li>
+                        <li>BigQuery</li>
+                        <li>Cloud Scheduler</li>
+                        <li>PLX Workflow</li>
+                    </div>
+                <div class="expertise-item">
+                    <h3>Leadership & Strategy</h3>
+                    <ul>
+                        <li>Team Leadership</li>
+                        <li>Cross-functional Collaboration</li>
+                        <li>Strategic Planning</li>
+                        <li>Stakeholder Management</li>
+                        <li>Process Optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="job-title">Technical Lead - Business Intelligence</div>
+                        <div class="company">Qualitest (Deputed at Google)</div>
+                    </div>
+                    <div class="duration">September 2022 - Present</div>
+                </div>
+                <div class="job-description">
+                    Leading team of data analysts and automation engineers to drive efficiency and achieve client requirements at Google.
+                </div>
+                <ul class="achievements">
+                    <li>Spearheaded automation of data processes using Python, Apps Script, and PLX, reducing costs by 95% and enhancing data quality by 90%</li>
+                    <li>Developed a live anomaly detection dashboard in PLX to flag analyst errors preemptively, reducing escalations to TPgM</li>
+                    <li>Collaborated with cross-functional teams to develop custom automated solutions, reducing manual hours by 80%</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="job-title">Senior Data Engineer</div>
+                        <div class="company">Livelike</div>
+                    </div>
+                    <div class="duration">June 2021 - September 2022</div>
+                </div>
+                <div class="job-description">
+                    Led cross-functional migration from Mixpanel to AWS RDS, optimizing reporting processes and achieving significant cost savings.
+                </div>
+                <ul class="achievements">
+                    <li>Achieved $4.2K/year in cost savings through strategic platform migration</li>
+                    <li>Developed personalized metrics platform for Livelike CMS, driving user engagement using Django and SQL</li>
+                    <li>Engineered automated solution to extract metrics from AWS RDS, resulting in 90% improvement in reporting efficiency</li>
+                    <li>Deployed BI solutions (Google Data Studio, Apache Superset) to visualize and analyze key metrics</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="job-title">Data Engineer</div>
+                        <div class="company">Koch Industries</div>
+                    </div>
+                    <div class="duration">March 2019 - May 2021</div>
+                </div>
+                <div class="job-description">
+                    Engineered real-time monitoring dashboard with Deloitte USA, optimizing tool performance for manufacturing processes.
+                </div>
+                <ul class="achievements">
+                    <li>Automated workflows, reducing errors by 98% and increasing efficiency through cross-team collaboration</li>
+                    <li>Deployed in-house PostgreSQL database on bare metal system, optimizing data operations and cost-efficiency by 80%</li>
+                    <li>Managed and mentored a team of 5 analysts, delivering data-driven strategies in sales and customer experience</li>
+                    <li>Collaborated with RPA automation team to drive automation across KBS for supply chain analytics</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="job-title">Business Intelligence Engineer</div>
+                        <div class="company">Bidgely</div>
+                    </div>
+                    <div class="duration">November 2018 - February 2019</div>
+                </div>
+                <div class="job-description">
+                    Optimized data-driven decision-making with comprehensive Looker dashboards and reports for energy analytics.
+                </div>
+                <ul class="achievements">
+                    <li>Developed 10+ Looker dashboards and reports for utility companies</li>
+                    <li>Solved data reliability issues with custom QA solution for utility dashboards</li>
+                    <li>Created internal back-testing framework for Bidgely's AI-powered energy insights</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div>
+                        <div class="job-title">Data Analyst - II</div>
+                        <div class="company">Red Hat</div>
+                    </div>
+                    <div class="duration">January 2016 - October 2018</div>
+                </div>
+                <div class="job-description">
+                    Automated data tagging processes and developed partner targeting tools for enhanced sales strategy.
+                </div>
+                <ul class="achievements">
+                    <li>Automated data tagging processes using Python libraries (Pandas, NumPy), achieving 98% increase in accuracy</li>
+                    <li>Designed and deployed web application using HTML, JavaScript, and Google Sheets API for SKU pricing retrieval</li>
+                    <li>Developed partner targeting tool leveraging Flask, MySQL, HTML, and JavaScript for sales strategy enhancement</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <p class="contact-text">
+                    I love to hear from you. Whether you have a question about data analytics, want to discuss BI strategies, or just want to chat about technology & innovation — shoot me a message.
+                </p>
+                
+                <div class="contact-grid">
+                    <a href="mailto:iamsohailislam1312@gmail.com" class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value">iamsohailislam1312@gmail.com</div>
+                    </a>
+                    
+                    <a href="https://linkedin.com/in/iamsohailislam" class="contact-item" target="_blank">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-label">LinkedIn</div>
+                        <div class="contact-value">Professional Network</div>
+                    </a>
+                    
+                    <a href="https://medium.com/@sislam-squareone" class="contact-item" target="_blank">
+                        <div class="contact-icon">📝</div>
+                        <div class="contact-label">Medium</div>
+                        <div class="contact-value">Articles & Insights</div>
+                    </a>
+                    
+                    <a href="tel:+918484963342" class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div class="contact-label">Phone</div>
+                        <div class="contact-value">+91 8484963342</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // Animate numbers
+                    if (entry.target.classList.contains('stat-card')) {
+                        const number = entry.target.querySelector('.stat-number');
+                        animateNumber(number);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Animate numbers
+        function animateNumber(element) {
+            const target = element.textContent;
+            const isPercentage = target.includes('%');
+            const numericTarget = parseInt(target.replace(/\D/g, ''));
+            let current = 0;
+            const increment = numericTarget / 50;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= numericTarget) {
+                    current = numericTarget;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current) + (isPercentage ? '%' : target.includes('+') ? '+' : '');
+            }, 40);
+        }
+
+        // Observe elements
+        document.querySelectorAll('.expertise-item, .experience-item, .contact-item, .stat-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
