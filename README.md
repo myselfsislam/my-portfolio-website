@@ -1,1 +1,9 @@
-Technologies Used : HTML & CSS
+# TECHNOLOGY USED
+- HTML
+- CSS
+- JavaScript
+
+# LINKS ADDED
+- LINKEDIN
+- MEDIUM
+- GITHUB
