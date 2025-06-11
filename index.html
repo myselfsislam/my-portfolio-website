@@ -647,7 +647,7 @@
     </div>
 
     <!-- Sound Indicator -->
-    <div class="sound-indicator" id="soundIndicator" title="Click to enable sound effects">🔊</div>
+    <div class="sound-indicator" id="soundIndicator" title="Welcome sound will play on first interaction" style="display: none;">🎵</div>
 
     <!-- Scroll Progress -->
     <div class="scroll-progress">
@@ -906,27 +906,24 @@
     </section>
 
     <script>
-        // Web Audio API setup for generating sounds
+        // Simple welcome sound setup
         let audioContext = null;
-        let audioEnabled = false;
+        let audioPlayed = false;
 
-        // Initialize Web Audio API
+        // Initialize Audio Context
         function initializeAudio() {
-            if (!audioEnabled && !audioContext) {
-                try {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    audioEnabled = true;
-                    updateSoundIndicator();
-                    console.log('Audio context initialized successfully');
-                } catch (error) {
-                    console.log('Web Audio API not supported:', error);
-                }
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                return true;
+            } catch (error) {
+                console.log('Web Audio API not supported:', error);
+                return false;
             }
         }
 
-        // Create and play a pop/click sound
-        function playPopSound() {
-            if (!audioEnabled || !audioContext) return;
+        // Play welcome sound (inspired by the YouTube audio)
+        function playWelcomeSound() {
+            if (!audioContext || audioPlayed) return;
 
             try {
                 // Resume audio context if suspended
@@ -934,43 +931,8 @@
                     audioContext.resume();
                 }
 
-                // Create oscillator for the pop sound
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                // Connect nodes
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                // Configure the pop sound
-                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
-                
-                // Volume envelope for pop effect
-                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                
-                // Play the sound
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-                
-            } catch (error) {
-                console.log('Error playing sound:', error);
-            }
-        }
-
-        // Create and play a bell/chime sound
-        function playChimeSound() {
-            if (!audioEnabled || !audioContext) return;
-
-            try {
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-
-                // Create multiple oscillators for a richer chime sound
-                const frequencies = [523.25, 659.25, 783.99]; // C5, E5, G5 - major chord
+                // Create a pleasant welcome chime sequence
+                const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
                 
                 frequencies.forEach((freq, index) => {
                     const oscillator = audioContext.createOscillator();
@@ -982,170 +944,71 @@
                     oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
                     oscillator.type = 'sine';
                     
-                    // Staggered attack for chord effect
-                    const startTime = audioContext.currentTime + (index * 0.05);
+                    // Ascending chime effect
+                    const startTime = audioContext.currentTime + (index * 0.15);
                     gainNode.gain.setValueAtTime(0, startTime);
-                    gainNode.gain.linearRampToValueAtTime(0.03, startTime + 0.1);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 1.0);
+                    gainNode.gain.linearRampToValueAtTime(0.08, startTime + 0.1);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 0.8);
                     
                     oscillator.start(startTime);
-                    oscillator.stop(startTime + 1.0);
+                    oscillator.stop(startTime + 0.8);
                 });
+
+                audioPlayed = true;
+                console.log('Welcome sound played successfully');
                 
             } catch (error) {
-                console.log('Error playing chime:', error);
+                console.log('Error playing welcome sound:', error);
             }
         }
 
-        // Create and play a whoosh sound
-        function playWhooshSound() {
-            if (!audioEnabled || !audioContext) return;
-
-            try {
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-
-                // Create noise for whoosh effect
-                const bufferSize = audioContext.sampleRate * 0.3; // 0.3 seconds
-                const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-                const data = buffer.getChannelData(0);
-                
-                // Generate filtered noise
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2);
-                }
-                
-                const source = audioContext.createBufferSource();
-                const gainNode = audioContext.createGain();
-                const filter = audioContext.createBiquadFilter();
-                
-                source.buffer = buffer;
-                filter.type = 'highpass';
-                filter.frequency.setValueAtTime(200, audioContext.currentTime);
-                filter.frequency.exponentialRampToValueAtTime(1000, audioContext.currentTime + 0.3);
-                
-                source.connect(filter);
-                filter.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
-                
-                source.start(audioContext.currentTime);
-                source.stop(audioContext.currentTime + 0.3);
-                
-            } catch (error) {
-                console.log('Error playing whoosh:', error);
+        // Enable audio and play welcome sound on first interaction
+        function enableAudioAndPlay() {
+            if (!audioPlayed && initializeAudio()) {
+                setTimeout(playWelcomeSound, 100);
             }
         }
-
-        // Update sound indicator
-        function updateSoundIndicator() {
-            const indicator = document.getElementById('soundIndicator');
-            if (indicator) {
-                if (audioEnabled) {
-                    indicator.classList.add('enabled');
-                    indicator.title = 'Sound effects enabled! 🔊';
-                } else {
-                    indicator.classList.remove('enabled');
-                    indicator.title = 'Click to enable sound effects';
-                }
-            }
-        }
-
-        // Enable audio on user interaction
-        function enableAudio() {
-            if (!audioEnabled) {
-                initializeAudio();
-            }
-        }
-
-        // Debounce function to prevent sound spam
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // Debounced sound functions
-        const debouncedPop = debounce(playPopSound, 200);
-        const debouncedChime = debounce(playChimeSound, 500);
-        const debouncedWhoosh = debounce(playWhooshSound, 300);
 
         // DOM Content Loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Sound indicator click handler
-            const soundIndicator = document.getElementById('soundIndicator');
-            if (soundIndicator) {
-                soundIndicator.addEventListener('click', () => {
-                    enableAudio();
-                    playChimeSound();
-                });
-            }
-
-            // Enable audio on first user interaction
+            // Play welcome sound on first user interaction
             const enableAudioOnce = { once: true };
-            document.addEventListener('click', enableAudio, enableAudioOnce);
-            document.addEventListener('touchstart', enableAudio, enableAudioOnce);
-            document.addEventListener('keydown', enableAudio, enableAudioOnce);
+            document.addEventListener('click', enableAudioAndPlay, enableAudioOnce);
+            document.addEventListener('touchstart', enableAudioAndPlay, enableAudioOnce);
+            document.addEventListener('keydown', enableAudioAndPlay, enableAudioOnce);
+            document.addEventListener('scroll', enableAudioAndPlay, enableAudioOnce);
+            document.addEventListener('mousemove', enableAudioAndPlay, enableAudioOnce);
 
-            // Add sound effects to interactive elements
+            // Show a subtle hint for audio
+            const soundHint = document.createElement('div');
+            soundHint.innerHTML = '🎵';
+            soundHint.style.position = 'fixed';
+            soundHint.style.top = '20px';
+            soundHint.style.left = '20px';
+            soundHint.style.fontSize = '20px';
+            soundHint.style.opacity = '0.4';
+            soundHint.style.zIndex = '1000';
+            soundHint.style.animation = 'pulse 2s infinite';
+            soundHint.title = 'Welcome sound will play on interaction';
             
-            // Sound on name hover (chime)
-            const nameHighlight = document.querySelector('.highlight');
-            if (nameHighlight) {
-                nameHighlight.addEventListener('mouseenter', debouncedChime);
-            }
+            document.body.appendChild(soundHint);
 
-            // Sound on navigation clicks (pop)
-            const navLinks = document.querySelectorAll('.nav-menu a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    setTimeout(playPopSound, 50);
-                });
-                link.addEventListener('mouseenter', debouncedPop);
-            });
-
-            // Sound on contact card hovers (pop)
-            const contactCards = document.querySelectorAll('.contact-item');
-            contactCards.forEach(card => {
-                card.addEventListener('mouseenter', debouncedPop);
-            });
-
-            // Sound on CTA button (chime)
-            const ctaButton = document.querySelector('.download-cv');
-            if (ctaButton) {
-                ctaButton.addEventListener('click', playChimeSound);
-                ctaButton.addEventListener('mouseenter', debouncedPop);
-            }
-
-            // Sound on stat cards (pop)
-            const statCards = document.querySelectorAll('.stat-card');
-            statCards.forEach(card => {
-                card.addEventListener('mouseenter', debouncedPop);
-            });
-
-            // Sound on expertise items (whoosh)
-            const expertiseItems = document.querySelectorAll('.expertise-item');
-            expertiseItems.forEach(item => {
-                item.addEventListener('mouseenter', debouncedWhoosh);
-            });
-
-            // Sound on experience items (pop)
-            const experienceItems = document.querySelectorAll('.experience-item');
-            experienceItems.forEach(item => {
-                item.addEventListener('mouseenter', debouncedPop);
-            });
-
-            // Initialize sound indicator
-            updateSoundIndicator();
+            // Hide hint after sound plays
+            const hideHint = () => {
+                if (audioPlayed) {
+                    soundHint.style.opacity = '0.1';
+                    soundHint.innerHTML = '🔊';
+                    soundHint.title = 'Welcome sound played!';
+                }
+            };
+            
+            // Check if sound played every second
+            const checkInterval = setInterval(() => {
+                if (audioPlayed) {
+                    hideHint();
+                    clearInterval(checkInterval);
+                }
+            }, 1000);
         });
 
         // Smooth scrolling
@@ -1155,8 +1018,6 @@
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Play scroll sound
-                    setTimeout(playWhooshSound, 100);
                 }
             });
         });
@@ -1184,13 +1045,6 @@
                         const number = entry.target.querySelector('.stat-number');
                         animateNumber(number);
                     }
-
-                    // Play sound on section reveal
-                    if (entry.target.classList.contains('section-title')) {
-                        setTimeout(() => {
-                            playChimeSound();
-                        }, 300);
-                    }
                 }
             });
         }, observerOptions);
@@ -1208,8 +1062,6 @@
                 if (current >= numericTarget) {
                     current = numericTarget;
                     clearInterval(timer);
-                    // Play completion sound
-                    setTimeout(playPopSound, 100);
                 }
                 element.textContent = Math.floor(current) + (isPercentage ? '%' : target.includes('+') ? '+' : '');
             }, 40);
@@ -1223,22 +1075,17 @@
             observer.observe(el);
         });
 
-        // Keyboard navigation with sound
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                const focusedElement = document.activeElement;
-                if (focusedElement && (focusedElement.href || focusedElement.classList.contains('download-cv'))) {
-                    playPopSound();
-                }
+        // Add CSS for pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { opacity: 0.4; }
+                50% { opacity: 0.8; }
             }
-        });
+        `;
+        document.head.appendChild(style);
 
-        // Error handling
-        window.addEventListener('error', (e) => {
-            console.log('An error occurred:', e.message);
-        });
-
-        // Performance optimization: Cleanup audio context on page unload
+        // Cleanup audio context on page unload
         window.addEventListener('beforeunload', () => {
             if (audioContext) {
                 audioContext.close();
