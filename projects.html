@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Sohail Islam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Apply Medium font to all text elements */
+        *, *::before, *::after {
+            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2d3748;
+            line-height: 1.7;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Subtle texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.4) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z'/%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Floating elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .float-item {
+            position: absolute;
+            opacity: 0.05;
+            animation: gentleFloat 25s infinite linear;
+        }
+
+        .circle-1 {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            top: 20%;
+            left: -60px;
+            animation-duration: 30s;
+        }
+
+        .circle-2 {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            border-radius: 50%;
+            top: 60%;
+            left: -40px;
+            animation-duration: 35s;
+            animation-delay: 10s;
+        }
+
+        .circle-3 {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 50%;
+            top: 80%;
+            left: -50px;
+            animation-duration: 40s;
+            animation-delay: 20s;
+        }
+
+        @keyframes gentleFloat {
+            0% {
+                transform: translateX(-100px) translateY(0px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.05;
+            }
+            90% {
+                opacity: 0.05;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(-50px);
+                opacity: 0;
+            }
+        }
+
+        /* Data points */
+        .data-points {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .data-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(74, 144, 226, 0.15);
+            border-radius: 50%;
+            animation: subtlePulse 4s infinite;
+        }
+
+        .dot-1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .dot-2 { top: 25%; left: 85%; animation-delay: 1s; }
+        .dot-3 { top: 45%; left: 20%; animation-delay: 2s; }
+        .dot-4 { top: 65%; left: 80%; animation-delay: 3s; }
+        .dot-5 { top: 75%; left: 15%; animation-delay: 1.5s; }
+        .dot-6 { top: 35%; left: 90%; animation-delay: 2.5s; }
+
+        @keyframes subtlePulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.1; 
+            }
+            50% { 
+                transform: scale(1.5); 
+                opacity: 0.2; 
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        .page-header {
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 1000;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2d3748;
+            letter-spacing: -0.02em;
+        }
+
+        .page-title .highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: #4a5568;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Projects Grid */
+        .projects-section {
+            padding: 0 0 100px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .project-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3748;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .project-name:hover {
+            color: #667eea;
+        }
+
+        .github-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #718096;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .star-icon, .fork-icon {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        .project-description {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tech-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .repo-link {
+            background: #2d3748;
+            color: white;
+        }
+
+        .repo-link:hover {
+            background: #1a202c;
+            transform: translateY(-2px);
+        }
+
+        .demo-link {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .demo-link:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .github-profile-section {
+            text-align: center;
+            padding: 50px 0;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .profile-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.2rem;
+            padding: 60px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(102, 126, 234, 0.2);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            color: #e53e3e;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .project-card {
+                padding: 25px;
+            }
+
+            .back-nav {
+                top: 20px;
+                left: 20px;
+            }
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(102, 126, 234, 0.2);
+            z-index: 1001;
+        }
+
+        .scroll-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Elements -->
+    <div class="floating-elements">
+        <div class="float-item circle-1"></div>
+        <div class="float-item circle-2"></div>
+        <div class="float-item circle-3"></div>
+    </div>
+
+    <!-- Data Points -->
+    <div class="data-points">
+        <div class="data-dot dot-1"></div>
+        <div class="data-dot dot-2"></div>
+        <div class="data-dot dot-3"></div>
+        <div class="data-dot dot-4"></div>
+        <div class="data-dot dot-5"></div>
+        <div class="data-dot dot-6"></div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar" id="scrollProgress"></div>
+    </div>
+
+    <!-- Back Navigation -->
+    <nav class="back-nav">
+        <a href="javascript:history.back()" class="back-button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Back to Portfolio
+        </a>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">GitHub <span class="highlight">Projects</span></h1>
+            <p class="page-subtitle">
+                Explore my latest projects and contributions showcasing business intelligence, 
+                automation, and innovative solutions across various technologies.
+            </p>
+        </div>
+    </header>
+
+    <!-- Projects Section -->
+    <section class="projects-section">
+        <div class="container">
+            <div id="projects-container">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading projects from GitHub...</p>
+                </div>
+            </div>
+            
+            <div class="github-profile-section">
+                <h3 style="margin-bottom: 20px; color: #2d3748; font-size: 1.5rem;">Explore More</h3>
+                <p style="margin-bottom: 30px; color: #4a5568; font-size: 1.1rem;">
+                    Visit my GitHub profile to see all repositories, contributions, and collaboration projects.
+                </p>
+                <a href="https://github.com/myselfsislam" target="_blank" class="profile-button">
+                    <svg class="github-icon" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    View All Repositories on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const GITHUB_USERNAME = 'myselfsislam';
+        
+        // Real GitHub projects
+        const fallbackProjects = [
+            {
+                name: "my-portfolio-website",
+                description: "Professional portfolio website showcasing 9+ years of business intelligence leadership, technical expertise, and data-driven innovation. Built with modern web technologies and responsive design principles.",
+                html_url: "https://github.com/myselfsislam/my-portfolio-website",
+                homepage: "https://my-portfolio-website-blush-five.vercel.app/",
+                language: "HTML",
+                stargazers_count: 5,
+                forks_count: 2,
+                topics: ["portfolio", "business-intelligence", "web-development", "professional", "responsive-design"]
+            },
+            {
+                name: "learn-prompt-evolve",
+                description: "AI prompt curator built with Loveable.dev that helps users create effective prompts for better AI results. Includes comprehensive learning resources and platforms for prompt engineering education and best practices.",
+                html_url: "https://github.com/myselfsislam/learn-prompt-evolve",
+                homepage: "",
+                language: "JavaScript",
+                stargazers_count: 3,
+                forks_count: 1,
+                topics: ["prompt-engineering", "ai", "curator", "loveable", "education", "machine-learning"]
+            }
+        ];
+        
+        async function fetchGitHubProjects() {
+            try {
+                // Try multiple methods to fetch GitHub data
+                let repos = null;
+                
+                // Method 1: Direct API call
+                try {
+                    const directResponse = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`);
+                    if (directResponse.ok) {
+                        repos = await directResponse.json();
+                    }
+                } catch (e) {
+                    console.log('Direct API call failed, trying proxy...');
+                }
+                
+                // Method 2: CORS proxy
+                if (!repos) {
+                    try {
+                        const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                        const apiUrl = `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=12`;
+                        const proxyResponse = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+                        if (proxyResponse.ok) {
+                            repos = await proxyResponse.json();
+                        }
+                    } catch (e) {
+                        console.log('Proxy API call failed, using fallback data...');
+                    }
+                }
+                
+                // If all methods fail, use fallback data
+                if (!repos || repos.length === 0) {
+                    console.log('Using fallback project data');
+                    repos = fallbackProjects;
+                }
+                
+                // Filter and sort repositories
+                const filteredRepos = repos
+                    .filter(repo => !repo.fork)
+                    .sort((a, b) => {
+                        if (b.stargazers_count !== a.stargazers_count) {
+                            return b.stargazers_count - a.stargazers_count;
+                        }
+                        return new Date(b.updated_at || '2024-01-01') - new Date(a.updated_at || '2024-01-01');
+                    });
+                
+                displayProjects(filteredRepos);
+                
+            } catch (error) {
+                console.error('All methods failed:', error);
+                displayProjects(fallbackProjects);
+            }
+        }
+        
+        function displayProjects(repos) {
+            const container = document.getElementById('projects-container');
+            
+            if (repos.length === 0) {
+                container.innerHTML = `
+                    <div class="error-message">
+                        <h3>No public repositories found</h3>
+                        <p>Check back later for updates!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const projectsHTML = `
+                <div class="projects-grid">
+                    ${repos.map(repo => createProjectCard(repo)).join('')}
+                </div>
+            `;
+            
+            container.innerHTML = projectsHTML;
+            
+            // Add animation to cards
+            setTimeout(() => {
+                document.querySelectorAll('.project-card').forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 100);
+        }
+        
+        function createProjectCard(repo) {
+            const description = repo.description || 'No description available';
+            const language = repo.language || 'Not specified';
+            const hasHomepage = repo.homepage && repo.homepage.trim() !== '';
+            
+            return `
+                <div class="project-card">
+                    <div class="project-header">
+                        <a href="${repo.html_url}" target="_blank" class="project-name">
+                            <svg class="github-icon" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            ${repo.name}
+                        </a>
+                        <div class="project-stats">
+                            <div class="stat">
+                                <svg class="star-icon" viewBox="0 0 24 24">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                ${repo.stargazers_count}
+                            </div>
+                            <div class="stat">
+                                <svg class="fork-icon" viewBox="0 0 24 24">
+                                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/>
+                                </svg>
+                                ${repo.forks_count}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="project-description">${description}</p>
+                    
+                    <div class="project-tech">
+                        <span class="tech-tag">${language}</span>
+                        ${repo.topics ? repo.topics.slice(0, 4).map(topic => `<span class="tech-tag">${topic}</span>`).join('') : ''}
+                    </div>
+                    
+                    <div class="project-links">
+                        <a href="${repo.html_url}" target="_blank" class="project-link repo-link">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            View Code
+                        </a>
+                        ${hasHomepage ? `
+                            <a href="${repo.homepage}" target="_blank" class="project-link demo-link">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="m13 3 3.293 3.293-7 7 1.414 1.414 7-7L21 11V3z"/>
+                                    <path d="M19 19H5V5h7l-2-2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-5l-2-2v7z"/>
+                                </svg>
+                                Live Demo
+                            </a>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        // Load projects when page loads
+        document.addEventListener('DOMContentLoaded', fetchGitHubProjects);
+    </script>
+</body>
+</html>
