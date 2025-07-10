@@ -3,112 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sohail Islam - Technical Lead BI</title>
+    <title>Sohail Islam - Matrix BI Terminal</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Apply Medium font to all text elements */
-        *, *::before, *::after {
-            font-family: medium-content-sans-serif-font, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Arial, sans-serif !important;
+        :root {
+            --matrix-green: #00cc33;
+            --matrix-dark-green: #006600;
+            --matrix-light-green: #4dcc4d;
+            --matrix-bg: #0d0208;
+            --matrix-secondary-bg: #1a0e0a;
+            --matrix-terminal-bg: rgba(0, 0, 0, 0.9);
+            --matrix-text: #00cc33;
+            --matrix-accent: #ff073a;
+            --matrix-warning: #ffa500;
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #2d3748;
-            line-height: 1.7;
+            font-family: 'Source Code Pro', monospace;
+            background: var(--matrix-bg);
+            color: var(--matrix-green);
             overflow-x: hidden;
-            position: relative;
+            line-height: 1.6;
         }
 
-        /* Subtle texture overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.4) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
-                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 20c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10zm10 0c0-5.5-4.5-10-10-10s-10 4.5-10 10 4.5 10 10 10 10-4.5 10-10z'/%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Elegant floating elements */
-        .floating-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            overflow: hidden;
-        }
-
-        .float-item {
-            position: absolute;
-            opacity: 0.05;
-            animation: gentleFloat 25s infinite linear;
-        }
-
-        .circle-1 {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            top: 20%;
-            left: -60px;
-            animation-duration: 30s;
-        }
-
-        .circle-2 {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            border-radius: 50%;
-            top: 60%;
-            left: -40px;
-            animation-duration: 35s;
-            animation-delay: 10s;
-        }
-
-        .circle-3 {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #a8edea, #fed6e3);
-            border-radius: 50%;
-            top: 80%;
-            left: -50px;
-            animation-duration: 40s;
-            animation-delay: 20s;
-        }
-
-        @keyframes gentleFloat {
-            0% {
-                transform: translateX(-100px) translateY(0px);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.05;
-            }
-            90% {
-                opacity: 0.05;
-            }
-            100% {
-                transform: translateX(calc(100vw + 100px)) translateY(-50px);
-                opacity: 0;
-            }
-        }
-
-        /* Subtle data points */
-        .data-points {
+        /* Matrix Rain Effect */
+        .matrix-rain {
             position: fixed;
             top: 0;
             left: 0;
@@ -116,353 +42,400 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
+            opacity: 0.3;
         }
 
-        .data-dot {
+        .rain-column {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: rgba(74, 144, 226, 0.15);
-            border-radius: 50%;
-            animation: subtlePulse 4s infinite;
+            top: -100px;
+            font-size: 14px;
+            color: var(--matrix-green);
+            animation: matrix-fall linear infinite;
+            white-space: pre;
         }
 
-        .dot-1 { top: 15%; left: 10%; animation-delay: 0s; }
-        .dot-2 { top: 25%; left: 85%; animation-delay: 1s; }
-        .dot-3 { top: 45%; left: 20%; animation-delay: 2s; }
-        .dot-4 { top: 65%; left: 80%; animation-delay: 3s; }
-        .dot-5 { top: 75%; left: 15%; animation-delay: 1.5s; }
-        .dot-6 { top: 35%; left: 90%; animation-delay: 2.5s; }
-
-        @keyframes subtlePulse {
-            0%, 100% { 
-                transform: scale(1); 
-                opacity: 0.1; 
-            }
-            50% { 
-                transform: scale(1.5); 
-                opacity: 0.2; 
+        @keyframes matrix-fall {
+            to {
+                transform: translateY(100vh);
             }
         }
 
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
+        /* Glitch Effect */
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        .glitch {
+            animation: glitch 0.5s infinite;
+        }
+
+        /* Terminal Window */
+        .terminal-window {
+            background: var(--matrix-terminal-bg);
+            border: 2px solid var(--matrix-green);
+            border-radius: 8px;
+            margin: 20px;
+            box-shadow: 0 0 15px rgba(0, 204, 51, 0.2);
             position: relative;
             z-index: 10;
         }
 
-        /* Header */
-        header {
-            min-height: 100vh;
+        .terminal-header {
+            background: var(--matrix-secondary-bg);
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--matrix-green);
             display: flex;
             align-items: center;
-            position: relative;
+            gap: 10px;
         }
 
-        .hero {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-
-        .hero-content h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 40px;
-            color: #2d3748;
-            letter-spacing: -0.02em;
-            position: relative;
-            z-index: 10;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 10;
-        }
-
-        .hero-content::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            right: -50px;
-            bottom: -50px;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(102, 126, 234, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(118, 75, 162, 0.06) 0%, transparent 50%);
-            z-index: -1;
-            border-radius: 20px;
-        }
-
-        .hero-content h1 .highlight {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-image {
-            position: relative;
+        .terminal-buttons {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            gap: 8px;
         }
 
-        .hero-image::before {
-            content: '';
-            width: 320px;
-            height: 320px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        .terminal-button {
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            position: absolute;
-            animation: heroGlow 8s ease-in-out infinite;
+            border: 1px solid var(--matrix-green);
         }
 
-        @keyframes heroGlow {
-            0%, 100% { transform: scale(1); opacity: 0.1; }
-            50% { transform: scale(1.05); opacity: 0.15; }
+        .terminal-button.close { background: var(--matrix-accent); }
+        .terminal-button.minimize { background: var(--matrix-warning); }
+        .terminal-button.maximize { background: var(--matrix-green); }
+
+        .terminal-title {
+            color: var(--matrix-green);
+            font-size: 14px;
+            font-weight: 500;
         }
 
-        .avatar {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: #667eea;
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        .terminal-content {
+            padding: 20px;
+            min-height: 400px;
         }
 
         /* Navigation */
-        nav {
+        .nav-terminal {
             position: fixed;
-            top: 40px;
-            right: 40px;
+            top: 20px;
+            right: 20px;
             z-index: 1000;
+            background: var(--matrix-terminal-bg);
+            border: 1px solid var(--matrix-green);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 204, 51, 0.2);
         }
 
         .nav-menu {
-            display: flex;
-            gap: 30px;
             list-style: none;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 30px;
-            border-radius: 50px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .nav-menu a {
-            color: #4a5568;
+            color: var(--matrix-green);
             text-decoration: none;
-            font-weight: 500;
+            font-size: 14px;
             transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
         }
 
         .nav-menu a:hover {
-            color: #667eea;
-            transform: translateY(-1px);
+            background: var(--matrix-green);
+            color: var(--matrix-bg);
+            box-shadow: 0 0 10px var(--matrix-green);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .terminal-prompt {
+            color: var(--matrix-green);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--matrix-green);
+            text-shadow: 0 0 10px var(--matrix-green);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--matrix-light-green);
+            margin-bottom: 30px;
+        }
+
+        .typing-animation {
+            border-right: 2px solid var(--matrix-green);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: var(--matrix-green); }
+            51%, 100% { border-color: transparent; }
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            color: var(--matrix-light-green);
+        }
+
+        .matrix-button {
+            background: transparent;
+            border: 2px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 12px 25px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .matrix-button:hover {
+            background: var(--matrix-green);
+            color: var(--matrix-bg);
+            box-shadow: 0 0 12px var(--matrix-green);
+            transform: scale(1.05);
+        }
+
+        .matrix-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 204, 51, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .matrix-button:hover::before {
+            left: 100%;
         }
 
         /* Sections */
-        section {
-            padding: 100px 0;
+        .section {
+            padding: 80px 40px;
             position: relative;
+            z-index: 10;
         }
 
         .section-title {
             font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 60px;
-            color: #2d3748;
+            color: var(--matrix-green);
             text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 0 0 8px var(--matrix-green);
+        }
+
+        .section-title::before {
+            content: '> ';
+            color: var(--matrix-accent);
         }
 
         /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 80px;
-            align-items: start;
-        }
-
-        .about-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 40px;
-            color: #4a5568;
-        }
-
-        .download-cv {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #ffffff;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .download-cv:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-        }
-
-        .stats-grid {
+        .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 60px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .stat-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+        .stats-matrix {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-terminal {
+            background: var(--matrix-terminal-bg);
+            border: 1px solid var(--matrix-green);
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        .stat-terminal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--matrix-green), transparent);
+            animation: scan 2s infinite;
+        }
+
+        @keyframes scan {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
         }
 
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #667eea;
+            color: var(--matrix-green);
+            text-shadow: 0 0 8px var(--matrix-green);
             display: block;
             margin-bottom: 10px;
         }
 
         .stat-label {
-            color: #718096;
+            color: var(--matrix-light-green);
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-weight: 500;
         }
 
-        /* Expertise Section */
-        .expertise-grid {
+        /* Skills Section */
+        .skills-matrix {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .expertise-item {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        .skill-terminal {
+            background: var(--matrix-terminal-bg);
+            border: 1px solid var(--matrix-green);
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .expertise-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .expertise-item h3 {
-            color: #667eea;
+        .skill-terminal h3 {
+            color: var(--matrix-green);
             font-size: 1.3rem;
             margin-bottom: 20px;
-            font-weight: 600;
+            text-shadow: 0 0 6px var(--matrix-green);
         }
 
-        .expertise-item ul {
+        .skill-terminal h3::before {
+            content: '$ ';
+            color: var(--matrix-accent);
+        }
+
+        .skill-list {
             list-style: none;
         }
 
-        .expertise-item li {
+        .skill-list li {
             padding: 8px 0;
-            color: #4a5568;
+            color: var(--matrix-light-green);
             position: relative;
             padding-left: 20px;
         }
 
-        .expertise-item li::before {
-            content: '•';
+        .skill-list li::before {
+            content: '>';
             position: absolute;
             left: 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        /* Experience Section */
-        .experience-item {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            color: var(--matrix-green);
         }
 
-        .experience-item:hover {
-            transform: translateX(10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        .skill-list li:hover {
+            color: var(--matrix-green);
+            text-shadow: 0 0 4px var(--matrix-green);
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .experience-item {
+            background: var(--matrix-terminal-bg);
+            border: 1px solid var(--matrix-green);
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--matrix-green);
+            box-shadow: 0 0 6px var(--matrix-green);
         }
 
         .experience-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
         }
 
         .job-title {
             font-size: 1.5rem;
             font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 5px;
+            color: var(--matrix-green);
+            text-shadow: 0 0 6px var(--matrix-green);
+        }
+
+        .job-title::before {
+            content: 'function ';
+            color: var(--matrix-accent);
+            font-size: 0.9rem;
         }
 
         .company {
-            color: #667eea;
+            color: var(--matrix-light-green);
             font-size: 1.2rem;
             font-weight: 500;
         }
 
         .duration {
-            background: rgba(102, 126, 234, 0.1);
-            color: #667eea;
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: var(--matrix-green);
+            color: var(--matrix-bg);
+            padding: 6px 12px;
+            border-radius: 4px;
             font-size: 0.9rem;
-            white-space: nowrap;
             font-weight: 500;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-        }
-
-        .job-description {
-            color: #4a5568;
-            line-height: 1.7;
-            margin-top: 20px;
         }
 
         .achievements {
@@ -471,497 +444,753 @@
         }
 
         .achievements li {
-            padding: 8px 0;
-            color: #4a5568;
+            padding: 6px 0;
+            color: var(--matrix-light-green);
             position: relative;
-            padding-left: 20px;
+            padding-left: 25px;
             line-height: 1.6;
         }
 
         .achievements li::before {
-            content: '▸';
+            content: '▶';
             position: absolute;
             left: 0;
-            color: #667eea;
+            color: var(--matrix-green);
         }
 
         /* Contact Section */
-        .contact {
-            text-align: center;
-        }
-
-        .contact-content {
+        .contact-matrix {
+            background: var(--matrix-terminal-bg);
+            border: 2px solid var(--matrix-green);
+            padding: 40px;
             max-width: 600px;
             margin: 0 auto;
-        }
-
-        .contact-text {
-            font-size: 1.3rem;
-            line-height: 1.7;
-            margin-bottom: 50px;
-            color: #4a5568;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 204, 51, 0.2);
         }
 
         .contact-grid {
             display: grid;
-            flex-direction: row;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: nowrap;
-            margin-top: 50px;
-            overflow-x: auto;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
         }
 
         .contact-item {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            transition: all 0.3s ease;
+            background: var(--matrix-secondary-bg);
+            border: 1px solid var(--matrix-green);
+            padding: 20px;
             text-decoration: none;
             color: inherit;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .contact-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            background: var(--matrix-green);
+            color: var(--matrix-bg);
+            box-shadow: 0 0 10px var(--matrix-green);
         }
 
         .contact-icon {
-            font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: block;
         }
 
         .contact-label {
             font-weight: 600;
-            color: #2d3748;
             margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .contact-value {
-            color: #4a5568;
             font-size: 0.9rem;
+            opacity: 0.8;
         }
 
-        /* Sound indicator */
-        .sound-indicator {
-            display: none;
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--matrix-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--matrix-green);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--matrix-light-green);
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
-            }
-
             .hero {
+                padding: 20px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .about-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
-                text-align: center;
             }
 
-            .hero-content h1 {
-                font-size: 3rem;
-            }
-
-            .about-content {
+            .stats-matrix {
                 grid-template-columns: 1fr;
-                gap: 40px;
             }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .terminal-window {
+                margin: 10px;
+            }
+
+            .nav-terminal {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px;
+                width: calc(100% - 40px);
             }
 
             .nav-menu {
-                flex-direction: column;
-                gap: 15px;
+                flex-direction: row;
+                justify-content: space-around;
+                flex-wrap: wrap;
             }
 
-            nav {
-                top: 20px;
-                right: 20px;
-            }
-
-            .experience-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .project-card {
-                padding: 25px;
+            .section {
+                padding: 60px 20px;
             }
         }
 
-        /* Scroll Progress */
-        .scroll-progress {
+        /* Loading Animation */
+        .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 3px;
-            background: rgba(102, 126, 234, 0.2);
-            z-index: 1001;
+            height: 100%;
+            background: var(--matrix-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
         }
 
-        .scroll-progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            width: 0%;
-            transition: width 0.1s ease;
+        .loading-text {
+            font-size: 1.5rem;
+            color: var(--matrix-green);
+            text-shadow: 0 0 10px var(--matrix-green);
+        }
+
+        .loading-text::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        /* Matrix Digital Rain Characters */
+        .matrix-char {
+            display: inline-block;
+            transition: color 0.1s ease;
+        }
+
+        .matrix-char.highlight {
+            color: var(--matrix-light-green);
+            text-shadow: 0 0 6px var(--matrix-light-green);
         }
     </style>
 </head>
 <body>
-    <!-- Floating Elements -->
-    <div class="floating-elements">
-        <div class="float-item circle-1"></div>
-        <div class="float-item circle-2"></div>
-        <div class="float-item circle-3"></div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">INITIALIZING MATRIX_BI_TERMINAL</div>
     </div>
 
-    <!-- Data Points -->
-    <div class="data-points">
-        <div class="data-dot dot-1"></div>
-        <div class="data-dot dot-2"></div>
-        <div class="data-dot dot-3"></div>
-        <div class="data-dot dot-4"></div>
-        <div class="data-dot dot-5"></div>
-        <div class="data-dot dot-6"></div>
-    </div>
-
-    <!-- Sound Indicator -->
-    <div class="sound-indicator" id="soundIndicator" title="Welcome sound will play on first interaction" style="display: none;">🎵</div>
-
-    <!-- Scroll Progress -->
-    <div class="scroll-progress">
-        <div class="scroll-progress-bar" id="scrollProgress"></div>
-    </div>
+    <!-- Matrix Rain Effect -->
+    <div class="matrix-rain" id="matrixRain"></div>
 
     <!-- Navigation -->
-    <nav>
+    <nav class="nav-terminal">
         <ul class="nav-menu">
-            <li><a href="#about">About</a></li>
-            <li><a href="#expertise">Expertise</a></li>
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="blogs.html">Blogs</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about">./about</a></li>
+            <li><a href="#skills">./skills</a></li>
+            <li><a href="#experience">./experience</a></li>
+            <li><a href="#projects">./projects</a></li>
+            <li><a href="#contact">./contact</a></li>
         </ul>
     </nav>
 
     <!-- Hero Section -->
-    <header>
-        <div class="container">
-            <div class="hero">
-                <div class="hero-content">
-                    <h1>
-                        I am <span class="highlight">Sohail Islam</span>,<br>
-                        a Technical Lead<br>
-                        & Business Intelligence<br>
-                        Professional.
-                    </h1>
+    <section class="hero" id="home">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
                 </div>
-                <div class="hero-image">
-                    <div class="avatar">SI</div>
+                <div class="terminal-title">sohail@matrix-bi:~$</div>
+            </div>
+            <div class="terminal-content">
+                <div class="hero-content">
+                    <div class="terminal-prompt">matrix@bi-system:~$ whoami</div>
+                    <h1 class="hero-title">
+                        <span class="typing-animation" id="heroTitle"></span>
+                    </h1>
+                    <div class="terminal-prompt">matrix@bi-system:~$ cat role.txt</div>
+                    <h2 class="hero-subtitle">Technical Lead & Business Intelligence Professional</h2>
+                    <div class="terminal-prompt">matrix@bi-system:~$ cat mission.txt</div>
+                    <p class="hero-description">
+                        Business Analytics Lead with 9+ years of experience delivering complex data initiatives across industries. 
+                        Specializing in AI-powered automation, reducing operational costs by 95% while enhancing data quality by 90%. 
+                        Currently serving as Technical Lead at Qualitest (Google), architecting the future of data-driven decision making.
+                    </p>
+                    <div class="terminal-prompt">matrix@bi-system:~$ ./execute_commands.sh</div>
+                    <div style="margin-top: 20px;">
+                        <a href="#about" class="matrix-button">./explore_profile</a>
+                        <a href="#contact" class="matrix-button">./contact_me</a>
+                        <a href="#projects" class="matrix-button">./view_projects</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </header>
+    </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">About</h2>
-            <div class="about-content">
-                <div>
-                    <p class="about-text">
-                        Business Analytics Lead with 9+ years of experience delivering complex data initiatives across industries including enterprise software, energy analytics, manufacturing, media tech, and IT services. Proven track record of aligning analytics strategies with business objectives, leading high-performing data teams, and fostering a culture of data-driven decision-making to drive measurable impact.
-                    </p>
-                    <p class="about-text">
-                        Currently serving as Technical Lead at Qualitest (Google), I've successfully reduced operational costs by 95% through intelligent automation while enhancing data quality by 90%. My passion for innovation drives me to continuously explore emerging technologies and methodologies.
-                    </p>
-                    <a href="mailto:iamsohailislam1312@gmail.com" class="download-cv">Get In Touch</a>
+    <section class="section" id="about">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
                 </div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-number">9+</span>
-                        <div class="stat-label">Years Experience</div>
+                <div class="terminal-title">about.exe</div>
+            </div>
+            <div class="terminal-content">
+                <h2 class="section-title">System Information</h2>
+                <div class="about-grid">
+                    <div>
+                        <div class="terminal-prompt">matrix@bi-system:~$ cat profile.log</div>
+                        <p style="color: var(--matrix-light-green); line-height: 1.8; margin-bottom: 30px;">
+                            Experienced Business Intelligence architect specializing in transforming raw data into strategic insights. 
+                            Expert in Python automation, cloud infrastructure, and cross-functional leadership. 
+                            Passionate about leveraging AI and machine learning to solve complex business challenges and drive innovation.
+                        </p>
+                        <div class="terminal-prompt">matrix@bi-system:~$ ./download_resume.sh</div>
+                        <a href="mailto:iamsohailislam1312@gmail.com" class="matrix-button">DOWNLOAD_PROFILE.exe</a>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-number">95%</span>
-                        <div class="stat-label">Cost Reduction</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">90%</span>
-                        <div class="stat-label">Data Quality</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">80%</span>
-                        <div class="stat-label">Time Saved</div>
+                    <div class="stats-matrix">
+                        <div class="stat-terminal">
+                            <span class="stat-number" data-target="9">0</span>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-terminal">
+                            <span class="stat-number" data-target="95">0</span>
+                            <div class="stat-label">Cost Reduction %</div>
+                        </div>
+                        <div class="stat-terminal">
+                            <span class="stat-number" data-target="90">0</span>
+                            <div class="stat-label">Data Quality %</div>
+                        </div>
+                        <div class="stat-terminal">
+                            <span class="stat-number" data-target="80">0</span>
+                            <div class="stat-label">Time Saved %</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Expertise Section -->
-    <section id="expertise" class="expertise">
-        <div class="container">
-            <h2 class="section-title">Expertise</h2>
-            <div class="expertise-grid">
-                <div class="expertise-item">
-                    <h3>BI & Visualization</h3>
-                    <ul>
-                        <li>Google Data Studio</li>
-                        <li>Apache Superset</li>
-                        <li>Power BI</li>
-                        <li>SAP Business Objects</li>
-                        <li>Mixpanel Analytics</li>
-                    </ul>
+    <!-- Skills Section -->
+    <section class="section" id="skills">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
                 </div>
-                <div class="expertise-item">
-                    <h3>Programming & Scripting</h3>
-                    <ul>
-                        <li>Python (Pandas, NumPy)</li>
-                        <li>Google Apps Script</li>
-                        <li>HTML/CSS/JavaScript</li>
-                        <li>SQL (Advanced)</li>
-                        <li>Flask & Django</li>
-                    </ul>
-                </div>
-                <div class="expertise-item">
-                    <h3>Cloud & Infrastructure</h3>
-                    <ul>
-                        <li>AWS (S3, Redshift, RDS)</li>
-                        <li>Google Cloud Platform</li>
-                        <li>BigQuery</li>
-                        <li>Cloud Scheduler</li>
-                        <li>PLX Workflow</li>
-                    </ul>
-                </div>
-                <div class="expertise-item">
-                    <h3>Leadership & Strategy</h3>
-                    <ul>
-                        <li>Team Leadership</li>
-                        <li>Cross-functional Collaboration</li>
-                        <li>Strategic Planning</li>
-                        <li>Stakeholder Management</li>
-                        <li>Process Optimization</li>
-                    </ul>
+                <div class="terminal-title">skills.config</div>
+            </div>
+            <div class="terminal-content">
+                <h2 class="section-title">System Capabilities</h2>
+                <div class="skills-matrix">
+                    <div class="skill-terminal">
+                        <h3>BI & Visualization</h3>
+                        <ul class="skill-list">
+                            <li>Google Data Studio</li>
+                            <li>Apache Superset</li>
+                            <li>Power BI</li>
+                            <li>SAP Business Objects</li>
+                            <li>Mixpanel Analytics</li>
+                        </ul>
+                    </div>
+                    <div class="skill-terminal">
+                        <h3>Programming & Scripting</h3>
+                        <ul class="skill-list">
+                            <li>Python (Pandas, NumPy)</li>
+                            <li>Google Apps Script</li>
+                            <li>HTML/CSS/JavaScript</li>
+                            <li>SQL (Advanced)</li>
+                            <li>Flask & Django</li>
+                        </ul>
+                    </div>
+                    <div class="skill-terminal">
+                        <h3>Cloud & Infrastructure</h3>
+                        <ul class="skill-list">
+                            <li>AWS (S3, Redshift, RDS)</li>
+                            <li>Google Cloud Platform</li>
+                            <li>BigQuery</li>
+                            <li>Cloud Scheduler</li>
+                            <li>PLX Workflow</li>
+                        </ul>
+                    </div>
+                    <div class="skill-terminal">
+                        <h3>Leadership & Strategy</h3>
+                        <ul class="skill-list">
+                            <li>Team Leadership</li>
+                            <li>Cross-functional Collaboration</li>
+                            <li>Strategic Planning</li>
+                            <li>Stakeholder Management</li>
+                            <li>Process Optimization</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Experience Section -->
-                    </a>
+    <section class="section" id="experience">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
+                </div>
+                <div class="terminal-title">experience.log</div>
+            </div>
+            <div class="terminal-content">
+                <h2 class="section-title">Work History</h2>
+                <div class="experience-timeline">
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div>
+                                <div class="job-title">Technical_Lead_BI()</div>
+                                <div class="company">Qualitest (Deputed at Google)</div>
+                            </div>
+                            <div class="duration">September 2022 - Present</div>
+                        </div>
+                        <ul class="achievements">
+                            <li>Spearheaded automation of data processes using Python, Apps Script, and PLX, reducing costs by 95%</li>
+                            <li>Developed live anomaly detection dashboard in PLX to flag analyst errors preemptively</li>
+                            <li>Collaborated with cross-functional teams to develop custom automated solutions, reducing manual hours by 80%</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div>
+                                <div class="job-title">Senior_Data_Engineer()</div>
+                                <div class="company">Livelike</div>
+                            </div>
+                            <div class="duration">June 2021 - September 2022</div>
+                        </div>
+                        <ul class="achievements">
+                            <li>Achieved $4.2K/year in cost savings through strategic platform migration</li>
+                            <li>Developed personalized metrics platform for Livelike CMS, driving user engagement</li>
+                            <li>Engineered automated solution to extract metrics from AWS RDS, 90% improvement in reporting efficiency</li>
+                            <li>Deployed BI solutions (Google Data Studio, Apache Superset) to visualize key metrics</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div>
+                                <div class="job-title">Data_Engineer()</div>
+                                <div class="company">Koch Industries</div>
+                            </div>
+                            <div class="duration">March 2019 - May 2021</div>
+                        </div>
+                        <ul class="achievements">
+                            <li>Automated workflows, reducing errors by 98% and increasing efficiency through cross-team collaboration</li>
+                            <li>Deployed in-house PostgreSQL database on bare metal system, optimizing cost-efficiency by 80%</li>
+                            <li>Managed and mentored a team of 5 analysts, delivering data-driven strategies</li>
+                            <li>Collaborated with RPA automation team to drive automation across KBS for supply chain analytics</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div>
+                                <div class="job-title">BI_Engineer()</div>
+                                <div class="company">Bidgely</div>
+                            </div>
+                            <div class="duration">November 2018 - February 2019</div>
+                        </div>
+                        <ul class="achievements">
+                            <li>Developed 10+ Looker dashboards and reports for utility companies</li>
+                            <li>Solved data reliability issues with custom QA solution for utility dashboards</li>
+                            <li>Created internal back-testing framework for Bidgely's AI-powered energy insights</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="experience-header">
+                            <div>
+                                <div class="job-title">Data_Analyst_II()</div>
+                                <div class="company">Red Hat</div>
+                            </div>
+                            <div class="duration">January 2016 - October 2018</div>
+                        </div>
+                        <ul class="achievements">
+                            <li>Automated data tagging processes using Python libraries (Pandas, NumPy), achieving 98% increase in accuracy</li>
+                            <li>Designed and deployed web application using HTML, JavaScript, and Google Sheets API for SKU pricing retrieval</li>
+                            <li>Developed partner targeting tool leveraging Flask, MySQL, HTML, and JavaScript for sales strategy enhancement</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Experience Section -->
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title">Experience</h2>
-            
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Technical Lead - Business Intelligence</div>
-                        <div class="company">Qualitest (Deputed at Google)</div>
-                    </div>
-                    <div class="duration">September 2022 - Present</div>
+    <!-- Projects Section -->
+    <section class="section" id="projects">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
                 </div>
-                <div class="job-description">
-                    Leading team of data analysts and automation engineers to drive efficiency and achieve client requirements at Google.
-                </div>
-                <ul class="achievements">
-                    <li>Spearheaded automation of data processes using Python, Apps Script, and PLX, reducing costs by 95% and enhancing data quality by 90%</li>
-                    <li>Developed a live anomaly detection dashboard in PLX to flag analyst errors preemptively, reducing escalations to TPgM</li>
-                    <li>Collaborated with cross-functional teams to develop custom automated solutions, reducing manual hours by 80%</li>
-                </ul>
+                <div class="terminal-title">projects.db</div>
             </div>
-
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Senior Data Engineer</div>
-                        <div class="company">Livelike</div>
+            <div class="terminal-content">
+                <h2 class="section-title">Project Repository</h2>
+                <div class="terminal-prompt">matrix@bi-system:~$ ls -la projects/</div>
+                <div style="margin: 30px 0; color: var(--matrix-light-green);">
+                    <div style="margin-bottom: 15px;">total 2</div>
+                    <div style="margin-bottom: 10px;">drwxr-xr-x 2 sohail sohail 4096 Jul 10 2025 .</div>
+                    <div style="margin-bottom: 10px;">drwxr-xr-x 3 sohail sohail 4096 Jul 10 2025 ..</div>
+                    <div style="margin-bottom: 10px;">-rw-r--r-- 1 sohail sohail 2048 Jul 10 2025 portfolio-website.html</div>
+                    <div style="margin-bottom: 10px;">-rw-r--r-- 1 sohail sohail 1536 Jul 10 2025 learn-prompt-evolve.js</div>
+                </div>
+                <div class="terminal-prompt">matrix@bi-system:~$ cat project_details.txt</div>
+                <div style="margin: 30px 0;">
+                    <div class="experience-item" style="margin-bottom: 30px;">
+                        <h3 style="color: var(--matrix-green); font-size: 1.3rem; margin-bottom: 15px;">my-portfolio-website</h3>
+                        <p style="color: var(--matrix-light-green); margin-bottom: 15px;">
+                            Professional portfolio website showcasing 9+ years of business intelligence leadership, 
+                            technical expertise, and data-driven innovation. Built with modern web technologies and responsive design principles.
+                        </p>
+                        <div style="margin-bottom: 15px;">
+                            <span style="background: var(--matrix-green); color: var(--matrix-bg); padding: 4px 8px; margin-right: 10px; font-size: 0.8rem;">HTML</span>
+                            <span style="background: var(--matrix-green); color: var(--matrix-bg); padding: 4px 8px; margin-right: 10px; font-size: 0.8rem;">CSS</span>
+                            <span style="background: var(--matrix-green); color: var(--matrix-bg); padding: 4px 8px; margin-right: 10px; font-size: 0.8rem;">JavaScript</span>
+                        </div>
+                        <a href="https://github.com/myselfsislam/my-portfolio-website" target="_blank" class="matrix-button" style="margin-right: 15px;">VIEW_CODE</a>
+                        <a href="https://my-portfolio-website-blush-five.vercel.app/" target="_blank" class="matrix-button">LIVE_DEMO</a>
                     </div>
-                    <div class="duration">June 2021 - September 2022</div>
-                </div>
-                <div class="job-description">
-                    Led cross-functional migration from Mixpanel to AWS RDS, optimizing reporting processes and achieving significant cost savings.
-                </div>
-                <ul class="achievements">
-                    <li>Achieved $4.2K/year in cost savings through strategic platform migration</li>
-                    <li>Developed personalized metrics platform for Livelike CMS, driving user engagement using Django and SQL</li>
-                    <li>Engineered automated solution to extract metrics from AWS RDS, resulting in 90% improvement in reporting efficiency</li>
-                    <li>Deployed BI solutions (Google Data Studio, Apache Superset) to visualize and analyze key metrics</li>
-                </ul>
-            </div>
 
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Data Engineer</div>
-                        <div class="company">Koch Industries</div>
+                    <div class="experience-item">
+                        <h3 style="color: var(--matrix-green); font-size: 1.3rem; margin-bottom: 15px;">learn-prompt-evolve</h3>
+                        <p style="color: var(--matrix-light-green); margin-bottom: 15px;">
+                            AI prompt curator built with Loveable.dev that helps users create effective prompts for better AI results. 
+                            Includes comprehensive learning resources and platforms for prompt engineering education and best practices.
+                        </p>
+                        <div style="margin-bottom: 15px;">
+                            <span style="background: var(--matrix-green); color: var(--matrix-bg); padding: 4px 8px; margin-right: 10px; font-size: 0.8rem;">JavaScript</span>
+                            <span style="background: var(--matrix-green); color: var(--matrix-bg); padding: 4px 8px; margin-right: 10px; font-size: 0.8rem;">AI</span>
+                            <span style="background: var(--matrix-green); color: var(--matrix-bg); padding: 4px 8px; margin-right: 10px; font-size: 0.8rem;">Prompt Engineering</span>
+                        </div>
+                        <a href="https://github.com/myselfsislam/learn-prompt-evolve" target="_blank" class="matrix-button">VIEW_CODE</a>
                     </div>
-                    <div class="duration">March 2019 - May 2021</div>
                 </div>
-                <div class="job-description">
-                    Engineered real-time monitoring dashboard with Deloitte USA, optimizing tool performance for manufacturing processes.
-                </div>
-                <ul class="achievements">
-                    <li>Automated workflows, reducing errors by 98% and increasing efficiency through cross-team collaboration</li>
-                    <li>Deployed in-house PostgreSQL database on bare metal system, optimizing data operations and cost-efficiency by 80%</li>
-                    <li>Managed and mentored a team of 5 analysts, delivering data-driven strategies in sales and customer experience</li>
-                    <li>Collaborated with RPA automation team to drive automation across KBS for supply chain analytics</li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Business Intelligence Engineer</div>
-                        <div class="company">Bidgely</div>
-                    </div>
-                    <div class="duration">November 2018 - February 2019</div>
-                </div>
-                <div class="job-description">
-                    Optimized data-driven decision-making with comprehensive Looker dashboards and reports for energy analytics.
-                </div>
-                <ul class="achievements">
-                    <li>Developed 10+ Looker dashboards and reports for utility companies</li>
-                    <li>Solved data reliability issues with custom QA solution for utility dashboards</li>
-                    <li>Created internal back-testing framework for Bidgely's AI-powered energy insights</li>
-                </ul>
-            </div>
-
-            <div class="experience-item">
-                <div class="experience-header">
-                    <div>
-                        <div class="job-title">Data Analyst - II</div>
-                        <div class="company">Red Hat</div>
-                    </div>
-                    <div class="duration">January 2016 - October 2018</div>
-                </div>
-                <div class="job-description">
-                    Automated data tagging processes and developed partner targeting tools for enhanced sales strategy.
-                </div>
-                <ul class="achievements">
-                    <li>Automated data tagging processes using Python libraries (Pandas, NumPy), achieving 98% increase in accuracy</li>
-                    <li>Designed and deployed web application using HTML, JavaScript, and Google Sheets API for SKU pricing retrieval</li>
-                    <li>Developed partner targeting tool leveraging Flask, MySQL, HTML, and JavaScript for sales strategy enhancement</li>
-                </ul>
+                <div class="terminal-prompt">matrix@bi-system:~$ ./view_all_projects.sh</div>
+                <a href="projects.html" class="matrix-button" style="margin-top: 20px;">ACCESS_FULL_REPOSITORY</a>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <p class="contact-text">
-                    I love to hear from you. Whether you have a question about data analytics, want to discuss BI strategies, or just want to chat about technology & innovation — shoot me a message.
-                </p>
-                
-                <div class="contact-grid">
-                    <a href="mailto:iamsohailislam1312@gmail.com" class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <div class="contact-label">Drop an Email</div>
-                    </a>
+    <section class="section" id="contact">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
+                </div>
+                <div class="terminal-title">contact.interface</div>
+            </div>
+            <div class="terminal-content">
+                <h2 class="section-title">Establish Connection</h2>
+                <div class="contact-matrix">
+                    <div class="terminal-prompt">matrix@bi-system:~$ ping contact_channels</div>
+                    <p style="color: var(--matrix-light-green); font-size: 1.1rem; margin: 20px 0;">
+                        Ready to establish secure connection. Whether you have questions about data analytics, 
+                        want to discuss BI strategies, or explore collaboration opportunities — initiate contact protocol.
+                    </p>
                     
-                    <a href="https://linkedin.com/in/iamsohailislam" class="contact-item" target="_blank">
-                        <div class="contact-icon">💼</div>
-                        <div class="contact-label">Connect on LinkedIn</div>
-                    </a>
+                    <div class="contact-grid">
+                        <a href="mailto:iamsohailislam1312@gmail.com" class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-label">Email Protocol</div>
+                            <div class="contact-value">iamsohailislam1312@gmail.com</div>
+                        </a>
+                        
+                        <a href="https://linkedin.com/in/iamsohailislam" class="contact-item" target="_blank">
+                            <div class="contact-icon">💼</div>
+                            <div class="contact-label">LinkedIn Network</div>
+                            <div class="contact-value">Professional Interface</div>
+                        </a>
+                        
+                        <a href="tel:+918484963342" class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div class="contact-label">Voice Channel</div>
+                            <div class="contact-value">+91 8484963342</div>
+                        </a>
+
+                        <a href="blogs.html" class="contact-item">
+                            <div class="contact-icon">📝</div>
+                            <div class="contact-label">Blog Archive</div>
+                            <div class="contact-value">Technical Articles</div>
+                        </a>
+                    </div>
                     
-                    <a href="tel:+918484963342" class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <div class="contact-label">Give a call</div>
-                    </a>
+                    <div class="terminal-prompt" style="margin-top: 30px;">matrix@bi-system:~$ connection_status: READY</div>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        // Remove all GitHub-related JavaScript since it's now on a separate page
-        
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Scroll progress
-        window.addEventListener('scroll', () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            document.getElementById('scrollProgress').style.width = scrolled + '%';
-        });
-
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                    
-                    // Animate numbers
-                    if (entry.target.classList.contains('stat-card')) {
-                        const number = entry.target.querySelector('.stat-number');
-                        animateNumber(number);
-                    }
-                }
-            });
-        }, observerOptions);
-
-        // Animate numbers
-        function animateNumber(element) {
-            const target = element.textContent;
-            const isPercentage = target.includes('%');
-            const numericTarget = parseInt(target.replace(/\D/g, ''));
-            let current = 0;
-            const increment = numericTarget / 50;
+        // Matrix Rain Effect
+        function createMatrixRain() {
+            const matrixRain = document.getElementById('matrixRain');
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+            const columns = Math.floor(window.innerWidth / 20);
             
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= numericTarget) {
-                    current = numericTarget;
-                    clearInterval(timer);
+            for (let i = 0; i < columns; i++) {
+                const column = document.createElement('div');
+                column.className = 'rain-column';
+                column.style.left = i * 20 + 'px';
+                column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                column.style.animationDelay = Math.random() * 2 + 's';
+                
+                let columnText = '';
+                for (let j = 0; j < 20; j++) {
+                    columnText += characters.charAt(Math.floor(Math.random() * characters.length)) + '\n';
                 }
-                element.textContent = Math.floor(current) + (isPercentage ? '%' : target.includes('+') ? '+' : '');
-            }, 40);
+                column.textContent = columnText;
+                
+                matrixRain.appendChild(column);
+            }
         }
 
-        // Observe elements for animation
-        document.querySelectorAll('.expertise-item, .experience-item, .contact-item, .stat-card, .section-title').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
+        // Typing Animation
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Number Animation
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.stat-number');
+            
+            numbers.forEach(num => {
+                const target = parseInt(num.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    num.textContent = Math.floor(current);
+                }, 20);
+            });
+        }
+
+        // Loading Screen
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 2000);
+        }
+
+        // Glitch Effect for Random Elements
+        function addRandomGlitch() {
+            const elements = document.querySelectorAll('.hero-title, .section-title, .job-title');
+            
+            setInterval(() => {
+                const randomElement = elements[Math.floor(Math.random() * elements.length)];
+                randomElement.classList.add('glitch');
+                
+                setTimeout(() => {
+                    randomElement.classList.remove('glitch');
+                }, 500);
+            }, 5000);
+        }
+
+        // Smooth Scrolling
+        function initSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
+        // Matrix Character Highlighting
+        function addMatrixHighlights() {
+            const textElements = document.querySelectorAll('p, li, .hero-description');
+            
+            textElements.forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    const text = element.textContent;
+                    const highlightedText = text.split('').map((char, index) => {
+                        if (Math.random() > 0.95 && char !== ' ') {
+                            return `<span class="matrix-char highlight">${char}</span>`;
+                        }
+                        return `<span class="matrix-char">${char}</span>`;
+                    }).join('');
+                    
+                    element.innerHTML = highlightedText;
+                    
+                    setTimeout(() => {
+                        element.textContent = text;
+                    }, 1000);
+                });
+            });
+        }
+
+        // Intersection Observer for Animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // Animate numbers when stats section is visible
+                        if (entry.target.querySelector('.stat-number')) {
+                            animateNumbers();
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.terminal-window, .experience-item, .skill-terminal, .stat-terminal').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                observer.observe(el);
+            });
+        }
+
+        // Terminal Sound Effect (Optional)
+        function playTerminalSound() {
+            // You can add terminal beep sounds here if desired
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hide loading screen
+            hideLoadingScreen();
+            
+            // Create matrix rain effect
+            createMatrixRain();
+            
+            // Type hero title
+            setTimeout(() => {
+                const heroTitle = document.getElementById('heroTitle');
+                typeWriter(heroTitle, 'SOHAIL ISLAM.exe', 150);
+            }, 2500);
+            
+            // Initialize other features
+            setTimeout(() => {
+                initSmoothScrolling();
+                initScrollAnimations();
+                addRandomGlitch();
+                addMatrixHighlights();
+            }, 3000);
+        });
+
+        // Window resize handler for matrix rain
+        window.addEventListener('resize', () => {
+            const matrixRain = document.getElementById('matrixRain');
+            matrixRain.innerHTML = '';
+            createMatrixRain();
+        });
+
+        // Easter egg: Konami code
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // UP UP DOWN DOWN LEFT RIGHT LEFT RIGHT B A
+
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.length === konamiSequence.length && 
+                konamiCode.every((code, index) => code === konamiSequence[index])) {
+                
+                // Easter egg activated!
+                document.body.style.filter = 'hue-rotate(180deg)';
+                alert('MATRIX MODE ACTIVATED! The blue pill has been taken...');
+                
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 5000);
+                
+                konamiCode = [];
+            }
         });
     </script>
 </body>
