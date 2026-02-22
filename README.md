@@ -7,3 +7,6 @@
 - LINKEDIN
 - MEDIUM
 - GITHUB
+
+# NOTES
+- This is a dummy change for testing the PR workflow.
